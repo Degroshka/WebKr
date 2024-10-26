@@ -91,13 +91,50 @@
             font-size: 22px;
             z-index: 10;
         }
+
+        /* Стили для окна запроса */
+        .audio-consent {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 20;
+        }
+        .audio-consent button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .audio-consent button.allow {
+            background-color: #4caf50;
+            color: white;
+        }
+        .audio-consent button.deny {
+            background-color: #f44336;
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <!-- Окно запроса разрешения на звук -->
+    <div class="audio-consent" id="audio-consent">
+        <p>Разрешить воспроизведение звука?</p>
+        <button class="allow" onclick="allowAudio()">Разрешить</button>
+        <button class="deny" onclick="denyAudio()">Отклонить</button>
+    </div>
+
     <video class="background-video" id="background-video" autoplay loop muted playsinline>
         <source src="https://i.imgur.com/JdtnXxU.mp4" type="video/mp4">
     </video>
-    <audio id="background-audio" autoplay loop>
+    <audio id="background-audio" loop>
         <source src="./musc.mp3" type="audio/mpeg">
     </audio>
 
@@ -136,6 +173,19 @@
         const audio = document.getElementById("background-audio");
         const muteButton = document.getElementById("mute-button");
         const volumeSlider = document.getElementById("volume");
+        const audioConsent = document.getElementById("audio-consent");
+
+        // Функция для разрешения аудио
+        function allowAudio() {
+            audioConsent.style.display = 'none';
+            audio.play();
+        }
+
+        // Функция для отказа от аудио
+        function denyAudio() {
+            audioConsent.style.display = 'none';
+            audio.muted = true;
+        }
 
         muteButton.addEventListener("click", () => {
             audio.muted = !audio.muted;
