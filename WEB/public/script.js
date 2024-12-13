@@ -49,8 +49,15 @@ async function loadComments() {
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const nickname = document.getElementById("nickname").value;
-    const comment = document.getElementById("comment").value;
+    
+    const nickname = document.getElementById("nickname").value.trim();
+    const comment = document.getElementById("comment").value.trim();
+
+    // Проверяем, что оба поля не пустые
+    if (!nickname || !comment) {
+        alert("Пожалуйста, заполните все поля.");
+        return; // Прерываем выполнение, если одно из полей пустое
+    }
 
     try {
         const response = await fetch('/api/comments', {
